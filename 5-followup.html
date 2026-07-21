@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سند ۵ | ارزیابی نهایی - Enerzist</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #D32F2F; --orange: #F57C00; --yellow: #FBC02D;
+    --green: #388E3C; --blue: #1976D2;
+    --dark-red: #B71C1C; --dark-orange: #E65100;
+    --dark-green: #1B5E20; --dark-blue: #0D47A1;
+    --muted: #757575;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: var(--tg-theme-bg-color, #E3F2FD);
+    color: var(--tg-theme-text-color, #212121);
+    line-height: 1.7; padding: 15px;
+  }
+  .header {
+    text-align: center; padding: 16px;
+    background: var(--tg-theme-secondary-bg-color, white);
+    border-radius: 16px; margin-bottom: 16px;
+    border-top: 4px solid var(--blue);
+  }
+  .logo-row { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--blue), var(--dark-blue));
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; color: white; font-weight: 900; font-size: 18px;
+  }
+  .logo-text { font-size: 22px; font-weight: 800; color: var(--dark-blue); }
+  .header h1 { color: var(--dark-blue); font-size: 17px; margin: 6px 0 2px; }
+  .card {
+    background: var(--tg-theme-secondary-bg-color, white);
+    border-radius: 12px; padding: 14px; margin-bottom: 12px;
+    border-right: 4px solid var(--blue);
+  }
+  .card.green { border-right-color: var(--green); }
+  .info-alert {
+    background: #E3F2FD; border-right: 4px solid var(--blue);
+    padding: 10px 12px; border-radius: 8px;
+    font-size: 12px; color: var(--dark-blue); margin-bottom: 14px;
+  }
+  .role-banner {
+    background: #FFEBEE; border-right: 4px solid var(--red);
+    padding: 10px 12px; border-radius: 8px;
+    font-size: 12px; color: var(--dark-red); margin-bottom: 14px;
+    text-align: center; font-weight: 700;
+  }
+  .section-title {
+    color: var(--dark-blue); font-size: 15px; font-weight: 800;
+    margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 14px;
+    background: linear-gradient(135deg, var(--blue), var(--dark-blue));
+    flex-shrink: 0;
+  }
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 13px; }
+  .form-group input, .form-group textarea {
+    width: 100%; padding: 10px; border: 1.5px solid rgba(0,0,0,0.12);
+    border-radius: 8px; font-family: inherit; font-size: 14px;
+    background: var(--tg-theme-bg-color, #FAFAFA);
+    color: var(--tg-theme-text-color, #212121);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn {
+    width: 100%; padding: 13px; border: none; border-radius: 10px;
+    font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+    color: var(--tg-theme-button-text-color, white); margin-top: 8px;
+    background: var(--tg-theme-button-color, var(--blue));
+  }
+  .btn-orange { background: var(--orange); }
+  .btn-green { background: var(--green); }
+  .btn-secondary {
+    background: var(--tg-theme-secondary-bg-color, white);
+    color: var(--blue); border: 2px solid var(--blue);
+  }
+  .btn-sm { padding: 9px; font-size: 12px; margin-top: 0; }
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .rating-scale { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
+  .rating-btn {
+    flex: 1; min-width: 28px; padding: 9px 4px;
+    background: var(--tg-theme-bg-color, #F5F5F5);
+    border: 1.5px solid rgba(0,0,0,0.12);
+    border-radius: 8px; text-align: center; cursor: pointer;
+    font-family: inherit; font-weight: 700; font-size: 12px;
+    color: var(--muted);
+  }
+  .rating-btn.selected {
+    background: linear-gradient(135deg, var(--blue), var(--dark-blue));
+    color: white; border-color: var(--blue);
+  }
+  .yn-group { display: flex; gap: 8px; margin-top: 5px; }
+  .yn-btn {
+    flex: 1; padding: 10px; background: var(--tg-theme-bg-color, #F5F5F5);
+    border: 1.5px solid rgba(0,0,0,0.12); border-radius: 8px;
+    cursor: pointer; font-family: inherit; font-weight: 600; font-size: 13px;
+    color: var(--tg-theme-text-color, #212121);
+  }
+  .yn-btn.yes.selected { background: var(--green); color: white; border-color: var(--green); }
+  .yn-btn.no.selected { background: var(--red); color: white; border-color: var(--red); }
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .summary-card {
+    background: #E8F5E9; padding: 12px 8px; border-radius: 10px;
+    border-top: 3px solid var(--green); text-align: center;
+  }
+  .summary-card.negative { background: #FFEBEE; border-top-color: var(--red); }
+  .summary-card .label { font-size: 11px; color: var(--muted); font-weight: 600; }
+  .summary-card .value { font-size: 18px; font-weight: 800; color: var(--dark-green); margin: 4px 0; }
+  .summary-card.negative .value { color: var(--dark-red); }
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 14px; }
+  .comp-table th {
+    background: linear-gradient(135deg, var(--blue), var(--dark-blue));
+    color: white; padding: 8px 6px; font-size: 11px; font-weight: 700;
+    border: 1px solid var(--dark-blue);
+  }
+  .comp-table td { padding: 7px 6px; border: 1px solid #DDD; text-align: center; font-size: 12px; }
+  .comp-table td:first-child { background: #F5F5F5; font-weight: 700; text-align: right; }
+  .change-improved { color: var(--dark-green); font-weight: 800; }
+  .change-worsened { color: var(--dark-red); font-weight: 800; }
+  .change-neutral { color: var(--muted); }
+  .comp-title {
+    background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+    color: var(--dark-blue); padding: 10px 12px; border-radius: 8px;
+    font-size: 14px; font-weight: 800; margin-bottom: 10px; text-align: center;
+  }
+  .notes-box {
+    background: var(--tg-theme-bg-color, #F5F5F5);
+    padding: 12px; border-radius: 10px; margin-bottom: 12px; font-size: 13px;
+  }
+  .footer {
+    background: linear-gradient(135deg, var(--dark-red), var(--dark-orange));
+    color: white; padding: 12px; border-radius: 10px;
+    margin-top: 16px; text-align: center; font-size: 11px;
+  }
+  .contact-info { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+  .contact-item { background: rgba(255,255,255,0.15); padding: 3px 8px; border-radius: 10px; font-size: 11px; }
+  .access-denied {
+    background: var(--tg-theme-secondary-bg-color, white);
+    border-radius: 16px; padding: 40px 20px; text-align: center; margin-top: 40px;
+  }
+  .access-denied .icon { font-size: 56px; margin-bottom: 16px; }
+  .access-denied h2 { color: var(--dark-red); margin-bottom: 10px; }
+  .access-denied p { color: var(--muted); font-size: 13px; line-height: 1.8; }
+  #formView { display: block; }
+  #reportView { display: none; }
+</style>
+</head>
+<body>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const userId = tg.initDataUnsafe?.user?.id || 'guest';
+const userRole = localStorage.getItem('enerzist_role') || 'consultant';
+
+if (userRole === 'client') {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.innerHTML = `
+      <div class="access-denied">
+        <div class="icon">🔒</div>
+        <h2>دسترسی محدود</h2>
+        <p>این بخش فقط برای مشاور تغذیه قابل دسترسی است.</p>
+      </div>`;
+    tg.BackButton.show();
+    tg.BackButton.onClick(() => tg.close());
+  });
+}
+</script>
+
+<div id="mainContent">
+
+<div class="header">
+  <div class="logo-row">
+    <div class="logo-icon">E</div>
+    <div class="logo-text">Enerzist</div>
+  </div>
+  <h1>📊 ارزیابی نهایی و مقایسه علمی</h1>
+  <p style="color:var(--muted);font-size:11px;">Follow-up Assessment & Scientific Comparison</p>
+</div>
+
+<!-- FORM VIEW -->
+<div id="formView">
+  <div class="role-banner">👨‍⚕️ حالت مشاور | این سند فقط برای مشاور قابل دسترسی است</div>
+
+  <div class="card">
+    <div class="info-alert">🎯 این فرم در <strong>پایان دوره درمان</strong> تکمیل می‌شود و با ارزیابی اولیه مقایسه می‌شود.</div>
+    <button class="btn btn-orange" style="margin-top:0;margin-bottom:12px;" onclick="loadBaseline()">📥 بارگذاری ارزیابی اولیه</button>
+    <div id="baselineStatus" style="background:#FFF3E0;padding:10px;border-radius:8px;text-align:center;font-size:12px;color:var(--dark-orange);">
+      ⚠️ ابتدا ارزیابی اولیه را بارگذاری کنید
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><div class="section-icon">📏</div><span>اندازه‌های نهایی</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>وزن (کیلوگرم)</label><input type="number" id="finalWeight" step="0.1"></div>
+      <div class="form-group"><label>دور گردن (سانتی‌متر)</label><input type="number" id="finalNeck" step="0.1"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>عرض شانه</label><input type="number" id="finalShoulder" step="0.1"></div>
+      <div class="form-group"><label>دور سینه</label><input type="number" id="finalChest" step="0.1"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>دور کمر</label><input type="number" id="finalWaist" step="0.1"></div>
+      <div class="form-group"><label>دور شکم</label><input type="number" id="finalAbdomen" step="0.1"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>دور باسن</label><input type="number" id="finalHip" step="0.1"></div>
+      <div class="form-group"><label>دور ران</label><input type="number" id="finalThigh" step="0.1"></div>
+    </div>
+    <div class="form-group"><label>دور مچ پا</label><input type="number" id="finalAnkle" step="0.1"></div>
+  </div>
+
+  <div class="card green">
+    <div class="section-title"><div class="section-icon" style="background:linear-gradient(135deg,var(--green),var(--dark-green))">🧠</div><span>ارزیابی روحی و روانی نهایی</span></div>
+
+    <div class="form-group">
+      <label>۱. رضایت از اندام خود</label>
+      <div class="rating-scale" data-target="finalBodySatisfaction"></div>
+      <input type="hidden" id="finalBodySatisfaction">
+    </div>
+    <div class="form-group">
+      <label>۲. احساس سلامتی جسمی</label>
+      <div class="rating-scale" data-target="finalPhysicalHealth"></div>
+      <input type="hidden" id="finalPhysicalHealth">
+    </div>
+    <div class="form-group">
+      <label>۳. احساس سلامتی روحی</label>
+      <div class="rating-scale" data-target="finalMentalHealth"></div>
+      <input type="hidden" id="finalMentalHealth">
+    </div>
+    <div class="form-group">
+      <label>۴. آیا هنوز احساس شرم دارید؟</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="finalShame" data-value="yes">بله</button>
+        <button type="button" class="yn-btn no" data-target="finalShame" data-value="no">خیر</button>
+      </div>
+      <input type="hidden" id="finalShame">
+    </div>
+    <div class="form-group">
+      <label>میزان استرس شغلی فعلی</label>
+      <div class="rating-scale" data-target="finalJobStress"></div>
+      <input type="hidden" id="finalJobStress">
+    </div>
+    <div class="form-group">
+      <label>رضایت کلی از دوره درمان</label>
+      <div class="rating-scale" data-target="treatmentSatisfaction"></div>
+      <input type="hidden" id="treatmentSatisfaction">
+    </div>
+    <div class="form-group">
+      <label>مهم‌ترین تغییری که در خودتان دیده‌اید</label>
+      <textarea id="mainChange" rows="2" placeholder="مثال: افزایش اعتماد به نفس، خواب بهتر..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>پیشنهادات به مراجعین آینده</label>
+      <textarea id="recommendations" rows="2" placeholder="تجربیات خود را بنویسید..."></textarea>
+    </div>
+  </div>
+
+  <button class="btn" onclick="generateReport()">📊 تولید گزارش مقایسه علمی</button>
+</div>
+
+<!-- REPORT VIEW -->
+<div id="reportView">
+  <div class="action-grid">
+    <button class="btn btn-orange btn-sm" onclick="window.print()">📄 چاپ / PDF</button>
+    <button class="btn btn-green btn-sm" onclick="exportCSV()">📊 خروجی Excel</button>
+    <button class="btn btn-secondary btn-sm" onclick="showForm()">✏️ ویرایش</button>
+    <button class="btn btn-sm" onclick="location.reload()">🔄 مراجع جدید</button>
+  </div>
+
+  <div class="comp-title">📊 گزارش نهایی مقایسه علمی</div>
+  <div class="summary-grid" id="summaryCards"></div>
+
+  <div class="comp-title">📏 مقایسه اندازه‌گیری‌های بدنی</div>
+  <div style="overflow-x:auto;margin-bottom:12px;">
+    <table class="comp-table" id="anthroTable"></table>
+  </div>
+
+  <div class="comp-title">🧠 مقایسه ارزیابی روحی-روانی</div>
+  <div style="overflow-x:auto;margin-bottom:12px;">
+    <table class="comp-table" id="psychTable"></table>
+  </div>
+
+  <div class="comp-title">📝 یادداشت‌های نهایی</div>
+  <div class="notes-box">
+    <p style="margin-bottom:8px;"><strong>مهم‌ترین تغییر:</strong> <span id="rMainChange">-</span></p>
+    <p><strong>پیشنهادات:</strong> <span id="rRecommendations">-</span></p>
+  </div>
+
+  <div class="footer">
+    <strong>Enerzist</strong> © مرکز تخصصی تغذیه
+    <div class="contact-info">
+      <div class="contact-item">📱 ۰۹۰۲۹۴۷۲۷۳۳</div>
+      <div class="contact-item">💬 تلگرام</div>
+      <div class="contact-item">📢 واتس‌اپ</div>
+      <div class="contact-item">✉️ بله</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- #mainContent -->
+
+<script>
+if (userRole !== 'client') {
+
+let baseline = null;
+
+function p(n) {
+  return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+function toast(msg, err) {
+  tg.HapticFeedback.notificationOccurred(err ? 'error' : 'success');
+  tg.showAlert(msg);
+}
+
+// Build rating scales
+document.querySelectorAll('.rating-scale').forEach(scale => {
+  const target = scale.dataset.target;
+  scale.innerHTML = Array.from({length:10}, (_,i) =>
+    `<button type="button" class="rating-btn" data-value="${i+1}">${p(i+1)}</button>`
+  ).join('');
+  scale.querySelectorAll('.rating-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      scale.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.getElementById(target).value = btn.dataset.value;
+      tg.HapticFeedback.selectionChanged();
+    });
+  });
+});
+
+document.querySelectorAll('.yn-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.parentElement.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById(btn.dataset.target).value = btn.dataset.value;
+    tg.HapticFeedback.impactOccurred('light');
+  });
+});
+
+function loadBaseline() {
+  try {
+    baseline = JSON.parse(localStorage.getItem('enerzist_current_baseline'));
+    if (!baseline) { toast('⚠️ ارزیابی اولیه یافت نشد', true); return; }
+    const el = document.getElementById('baselineStatus');
+    el.innerHTML = `✅ بارگذاری شد | ${baseline.clientName || '-'} | ${baseline.date || '-'}`;
+    el.style.background = '#E8F5E9';
+    el.style.color = '#1B5E20';
+    tg.HapticFeedback.impactOccurred('light');
+  } catch(e) { toast('❌ خطا در بارگذاری', true); }
+}
+
+function fmtChange(before, after, unit, reversed) {
+  if (!before || !after) return { text: '-', cls: 'change-neutral' };
+  const diff = parseFloat(after) - parseFloat(before);
+  if (diff === 0) return { text: 'بدون تغییر', cls: 'change-neutral' };
+  const improved = reversed ? diff > 0 : diff < 0;
+  return {
+    text: (diff > 0 ? '↑ ' : '↓ ') + p(Math.abs(diff).toFixed(1)) + (unit ? ' ' + unit : ''),
+    cls: improved ? 'change-improved' : 'change-worsened'
+  };
+}
+
+function val(id) { return document.getElementById(id)?.value || ''; }
+
+function generateReport() {
+  if (!baseline) { toast('⚠️ ابتدا ارزیابی اولیه را بارگذاری کنید', true); return; }
+
+  const anthroFields = [
+    { label: 'وزن', bk: 'weight', ak: 'finalWeight', unit: 'کیلوگرم' },
+    { label: 'دور گردن', bk: 'neckCirc', ak: 'finalNeck', unit: 'سانتی‌متر' },
+    { label: 'عرض شانه', bk: 'shoulderWidth', ak: 'finalShoulder', unit: 'سانتی‌متر' },
+    { label: 'دور سینه', bk: 'chestCirc', ak: 'finalChest', unit: 'سانتی‌متر' },
+    { label: 'دور کمر', bk: 'waistCirc', ak: 'finalWaist', unit: 'سانتی‌متر' },
+    { label: 'دور شکم', bk: 'abdomenCirc', ak: 'finalAbdomen', unit: 'سانتی‌متر' },
+    { label: 'دور باسن', bk: 'hipCirc', ak: 'finalHip', unit: 'سانتی‌متر' },
+    { label: 'دور ران', bk: 'thighCirc', ak: 'finalThigh', unit: 'سانتی‌متر' },
+    { label: 'دور مچ پا', bk: 'ankleCirc', ak: 'finalAnkle', unit: 'سانتی‌متر' }
+  ];
+
+  let aHtml = '<thead><tr><th>پارامتر</th><th>قبل</th><th>بعد</th><th>تغییر</th></tr></thead><tbody>';
+  anthroFields.forEach(f => {
+    const b = baseline[f.bk] || '', a = val(f.ak);
+    const ch = fmtChange(b, a, f.unit);
+    aHtml += `<tr><td>${f.label}</td><td>${b ? p(b)+' '+f.unit : '-'}</td><td>${a ? p(a)+' '+f.unit : '-'}</td><td class="${ch.cls}">${ch.text}</td></tr>`;
+  });
+  document.getElementById('anthroTable').innerHTML = aHtml + '</tbody>';
+
+  const psychFields = [
+    { label: 'رضایت از اندام (۱-۱۰)', bk: 'bodySatisfaction', ak: 'finalBodySatisfaction', rev: true },
+    { label: 'سلامتی جسمی (۱-۱۰)', bk: 'physicalHealth', ak: 'finalPhysicalHealth', rev: true },
+    { label: 'سلامتی روحی (۱-۱۰)', bk: 'mentalHealth', ak: 'finalMentalHealth', rev: true },
+    { label: 'استرس شغلی (۱-۱۰)', bk: 'jobStress', ak: 'finalJobStress', rev: false }
+  ];
+
+  let pHtml = '<thead><tr><th>پارامتر</th><th>قبل</th><th>بعد</th><th>تغییر</th></tr></thead><tbody>';
+  psychFields.forEach(f => {
+    const b = baseline[f.bk] || '', a = val(f.ak);
+    const ch = fmtChange(b, a, '', f.rev);
+    pHtml += `<tr><td>${f.label}</td><td>${b ? p(b) : '-'}</td><td>${a ? p(a) : '-'}</td><td class="${ch.cls}">${ch.text}</td></tr>`;
+  });
+
+  const bs = baseline.shame, as_ = val('finalShame');
+  let shameText = 'بدون تغییر', shameCls = 'change-neutral';
+  if (bs === 'yes' && as_ === 'no') { shameText = '✅ رفع شد'; shameCls = 'change-improved'; }
+  if (bs === 'no' && as_ === 'yes') { shameText = '⚠️ ایجاد شد'; shameCls = 'change-worsened'; }
+  pHtml += `<tr><td>احساس شرم از اندام</td><td>${bs === 'yes' ? 'بله' : bs === 'no' ? 'خیر' : '-'}</td><td>${as_ === 'yes' ? 'بله' : as_ === 'no' ? 'خیر' : '-'}</td><td class="${shameCls}">${shameText}</td></tr>`;
+
+  const treatSat = val('treatmentSatisfaction');
+  pHtml += `<tr><td>رضایت از دوره درمان</td><td>-</td><td>${treatSat ? p(treatSat)+' / ۱۰' : '-'}</td><td class="change-improved">✓</td></tr>`;
+  document.getElementById('psychTable').innerHTML = pHtml + '</tbody>';
+
+  const iW = parseFloat(baseline.weight) || 0;
+  const fW = parseFloat(val('finalWeight')) || 0;
+  const iWaist = parseFloat(baseline.waistCirc) || 0;
+  const fWaist = parseFloat(val('finalWaist')) || 0;
+  const iSat = parseFloat(baseline.bodySatisfaction) || 0;
+  const fSat = parseFloat(val('finalBodySatisfaction')) || 0;
+  const wLoss = iW - fW, waistLoss = iWaist - fWaist, satDiff = fSat - iSat;
+
+  document.getElementById('summaryCards').innerHTML = [
+    { label: 'کاهش وزن کل', value: p(wLoss.toFixed(1)) + ' کیلوگرم', neg: wLoss <= 0 },
+    { label: 'کاهش دور کمر', value: p(waistLoss.toFixed(1)) + ' سانتی‌متر', neg: waistLoss <= 0 },
+    { label: 'افزایش رضایت', value: '+' + p(satDiff), neg: satDiff <= 0 },
+    { label: 'رضایت از درمان', value: p(treatSat || 0) + '/۱۰', neg: false }
+  ].map(c => `<div class="summary-card${c.neg ? ' negative' : ''}"><div class="label">${c.label}</div><div class="value">${c.value}`<div class="label">${c.label}</div><div class="value">${c.value}</div></div>`
+  ).join('');
+
+  document.getElementById('rMainChange').textContent = val('mainChange') || '-';
+  document.getElementById('rRecommendations').textContent = val('recommendations') || '-';
+
+  document.getElementById('formView').style.display = 'none';
+  document.getElementById('reportView').style.display = 'block';
+
+  tg.BackButton.show();
+  tg.BackButton.onClick(() => {
+    showForm();
+    tg.BackButton.hide();
+  });
+
+  tg.HapticFeedback.notificationOccurred('success');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showForm() {
+  document.getElementById('formView').style.display = 'block';
+  document.getElementById('reportView').style.display = 'none';
+  tg.HapticFeedback.impactOccurred('light');
+}
+
+function exportCSV() {
+  if (!baseline) { toast('⚠️ ابتدا بارگذاری کنید', true); return; }
+  const fields = [
+    ['Weight','kg', baseline.weight, val('finalWeight')],
+    ['Neck','cm', baseline.neckCirc, val('finalNeck')],
+    ['Shoulder Width','cm', baseline.shoulderWidth, val('finalShoulder')],
+    ['Chest','cm', baseline.chestCirc, val('finalChest')],
+    ['Waist','cm', baseline.waistCirc, val('finalWaist')],
+    ['Abdomen','cm', baseline.abdomenCirc, val('finalAbdomen')],
+    ['Hip','cm', baseline.hipCirc, val('finalHip')],
+    ['Thigh','cm', baseline.thighCirc, val('finalThigh')],
+    ['Ankle','cm', baseline.ankleCirc, val('finalAnkle')],
+    ['Body Satisfaction','/10', baseline.bodySatisfaction, val('finalBodySatisfaction')],
+    ['Physical Health','/10', baseline.physicalHealth, val('finalPhysicalHealth')],
+    ['Mental Health','/10', baseline.mentalHealth, val('finalMentalHealth')],
+    ['Job Stress','/10', baseline.jobStress, val('finalJobStress')],
+    ['Shame Feeling','yes/no', baseline.shame, val('finalShame')],
+    ['Treatment Satisfaction','/10', '-', val('treatmentSatisfaction')]
+  ];
+  let csv = 'Parameter,Unit,Before,After,Change\n';
+  fields.forEach(([l, u, b, a]) => {
+    const ch = (b && a && !isNaN(b) && !isNaN(a)) ? (parseFloat(a) - parseFloat(b)).toFixed(1) : '';
+    csv += `"${l}","${u}","${b||''}","${a||''}","${ch}"\n`;
+  });
+  csv += `\n"Main Change","","","${(val('mainChange')||'').replace(/"/g,'""')}",""\n`;
+  csv += `"Recommendations","","","${(val('recommendations')||'').replace(/"/g,'""')}",""\n`;
+
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `enerzist_comparison_${baseline.clientName || 'client'}_${Date.now()}.csv`;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 100);
+  tg.HapticFeedback.impactOccurred('light');
+}
+
+} // end consultant-only
+</script>
+</body>
+</html>
+

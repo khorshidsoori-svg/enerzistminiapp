@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>سند ۱ | ارزیابی اولیه - Enerzist</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #D32F2F; --orange: #F57C00; --yellow: #FBC02D;
+    --green: #388E3C; --dark-red: #B71C1C; --dark-orange: #E65100;
+    --text: var(--tg-theme-text-color, #212121);
+    --muted: var(--tg-theme-hint-color, #757575);
+    --tg-bg: var(--tg-theme-bg-color, #FFF8F5);
+    --tg-secondary-bg: var(--tg-theme-secondary-bg-color, #ffffff);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: var(--tg-bg);
+    color: var(--text); line-height: 1.7; padding: 12px;
+    padding-bottom: 90px; /* فضا برای MainButton */
+  }
+  .doc-badge {
+    display: block; text-align: center;
+    background: linear-gradient(135deg, var(--red), var(--dark-red));
+    color: white; padding: 8px 20px; border-radius: 25px;
+    font-weight: 700; font-size: 13px; max-width: 800px; margin: 0 auto 16px;
+  }
+  .header {
+    text-align: center; padding: 20px; background: var(--tg-secondary-bg);
+    border-radius: 20px; max-width: 800px; margin: 0 auto 20px;
+    box-shadow: 0 8px 30px rgba(211, 47, 47, 0.12);
+    border-top: 5px solid var(--red);
+  }
+  .logo-row { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--red), var(--orange));
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; color: white; font-weight: 900; font-size: 20px;
+  }
+  .logo-text { font-size: 24px; font-weight: 800; color: var(--dark-red); }
+  .header h1 { color: var(--dark-red); font-size: 20px; margin: 8px 0 3px; }
+  .form-container { max-width: 800px; margin: 0 auto; }
+  .section {
+    background: var(--tg-secondary-bg); border-radius: 15px; padding: 20px;
+    margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    border-right: 5px solid var(--red);
+  }
+  .section.orange { border-right-color: var(--orange); }
+  .section.yellow { border-right-color: var(--yellow); }
+  .section.green { border-right-color: var(--green); }
+  .section.blue { border-right-color: #1976D2; }
+  .section.purple { border-right-color: #7B1FA2; }
+  .section-title {
+    color: var(--dark-red); font-size: 17px; font-weight: 800;
+    margin-bottom: 15px; padding-bottom: 10px;
+    border-bottom: 2px dashed #FFCDD2;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section.orange .section-title { color: var(--dark-orange); border-color: #FFE0B2; }
+  .section.yellow .section-title { color: #F57F17; border-color: #FFF9C4; }
+  .section.green .section-title { color: #1B5E20; border-color: #C8E6C9; }
+  .section.blue .section-title { color: #0D47A1; border-color: #BBDEFB; }
+  .section.purple .section-title { color: #4A148C; border-color: #E1BEE7; }
+  .section-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 17px;
+    background: linear-gradient(135deg, var(--red), var(--dark-red));
+  }
+  .section.orange .section-icon { background: linear-gradient(135deg, var(--orange), var(--dark-orange)); }
+  .section.yellow .section-icon { background: linear-gradient(135deg, var(--yellow), #F9A825); }
+  .section.green .section-icon { background: linear-gradient(135deg, var(--green), #1B5E20); }
+  .section.blue .section-icon { background: linear-gradient(135deg, #1976D2, #0D47A1); }
+  .section.purple .section-icon { background: linear-gradient(135deg, #7B1FA2, #4A148C); }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; color: var(--text); font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 11px; border: 2px solid #EEE;
+    border-radius: 8px; font-family: inherit; font-size: 14px;
+    background: #FAFAFA; color: #212121;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none; border-color: var(--orange); background: white;
+  }
+  .form-group textarea { resize: vertical; min-height: 60px; }
+  .form-row { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .form-row-2 { grid-template-columns: 1fr 1fr; }
+  .rating-scale { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
+  .rating-btn {
+    flex: 1; min-width: 32px; padding: 10px 5px;
+    background: #F5F5F5; border: 2px solid #EEE;
+    border-radius: 8px; text-align: center; cursor: pointer;
+    font-family: inherit; font-weight: 700; font-size: 13px; color: var(--muted);
+  }
+  .rating-btn.selected {
+    background: linear-gradient(135deg, var(--orange), var(--dark-orange));
+    color: white; border-color: var(--orange);
+  }
+  .rating-labels { display: flex; justify-content: space-between; margin-top: 5px; font-size: 11px; color: var(--muted); }
+  .yn-group { display: flex; gap: 8px; margin-top: 5px; }
+  .yn-btn { flex: 1; padding: 10px; background: #F5F5F5; border: 2px solid #EEE; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 13px; }
+  .yn-btn.yes.selected { background: linear-gradient(135deg, var(--green), #1B5E20); color: white; border-color: var(--green); }
+  .yn-btn.no.selected { background: linear-gradient(135deg, var(--red), var(--dark-red)); color: white; border-color: var(--red); }
+  .percent-group { background: linear-gradient(135deg, #FFF3E0, #FFECB3); padding: 15px; border-radius: 10px; margin-top: 8px; }
+  .percent-item { display: grid; grid-template-columns: 1fr 80px; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .percent-item label { font-size: 13px; margin: 0; }
+  .percent-item input { text-align: center; font-weight: 700; }
+  .percent-total { text-align: left; padding: 10px; background: white; border-radius: 6px; font-weight: 700; font-size: 14px; margin-top: 10px; transition: all 0.3s; }
+  .percent-total.ok { color: var(--green); background: #E8F5E9; }
+  .percent-total.error { color: var(--red); background: #FFEBEE; }
+  .checkbox-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .checkbox-item { display: flex; align-items: center; gap: 8px; padding: 10px; background: #FAFAFA; border: 2px solid #EEE; border-radius: 8px; cursor: pointer; font-size: 13px; }
+  .checkbox-item input { width: auto; }
+  .checkbox-item.checked { background: rgba(245, 124, 0, 0.08); border-color: var(--orange); color: var(--dark-orange); font-weight: 600; }
+  .info-box {
+    background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+    border-right: 4px solid var(--orange);
+    padding: 10px 15px; border-radius: 8px;
+    font-size: 12px; color: var(--dark-orange); margin-bottom: 15px;
+  }
+  .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 25px 0; }
+  .btn { padding: 14px; border: none; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; color: white; }
+  .btn-print { background: linear-gradient(135deg, var(--orange), var(--dark-orange)); }
+  .btn-primary { background: linear-gradient(135deg, var(--red), var(--dark-red)); }
+  .btn-clear { background: white; color: var(--muted); border: 2px solid #EEE; grid-column: span 2; }
+  .toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--green); color: white; padding: 12px 24px;
+    border-radius: 25px; font-weight: 700; z-index: 1000; display: none;
+  }
+  .toast.error { background: var(--red); }
+  @media print {
+    body { background: white; padding: 0; }
+    .action-buttons, .header, .doc-badge { display: none !important; }
+    @page { size: A4; margin: 10mm; }
+  }
+  @media (min-width: 600px) {
+    .form-row-2 { grid-template-columns: 1fr 1fr; }
+    .checkbox-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-badge">سند ۱: ارزیابی اولیه</div>
+
+<div class="header">
+  <div class="logo-row">
+    <div class="logo-icon">E</div>
+    <div class="logo-text">Enerzist</div>
+  </div>
+  <h1>📋 پرسشنامه ارزیابی اولیه</h1>
+</div>
+
+<div class="form-container">
+
+  <div class="section">
+    <div class="section-title"><div class="section-icon">👤</div><span>اطلاعات شخصی</span></div>
+    <div class="form-group">
+      <label>نام و نام خانوادگی</label>
+      <input type="text" id="clientName" placeholder="مثال: مریم احمدی">
+    </div>
+    <div class="form-row form-row-2">
+      <div class="form-group"><label>شماره پرونده</label><input type="text" id="fileNumber"></div>
+      <div class="form-group"><label>شماره تماس</label><input type="text" id="phone"></div>
+    </div>
+    <div class="form-row form-row-2">
+      <div class="form-group">
+        <label>جنسیت</label>
+        <select id="sex"><option value="female">زن</option><option value="male">مرد</option></select>
+      </div>
+      <div class="form-group"><label>سن (سال)</label><input type="number" id="age" placeholder="35"></div>
+    </div>
+    <div class="form-row form-row-2">
+      <div class="form-group">
+        <label>وضعیت تأهل</label>
+        <select id="marital">
+          <option value="single">مجرد</option><option value="married">متأهل</option>
+          <option value="divorced">جدا شده</option><option value="widowed">همسر فوت شده</option>
+        </select>
+      </div>
+      <div class="form-group"><label>تعداد فرزندان</label><input type="number" id="children" placeholder="0" min="0"></div>
+    </div>
+    <div class="form-group" id="pregnancyGroup">
+      <label>سابقه بارداری/زایمان (فقط خانم‌ها)</label>
+      <select id="pregnancy">
+        <option value="none">هیچ‌کدام</option><option value="pregnant_now">در حال حاضر باردار</option>
+        <option value="postpartum">بعد از زایمان اخیر</option><option value="breastfeeding">در حال شیردهی</option>
+        <option value="past_pregnancy">سابقه بارداری قبلی</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section orange">
+    <div class="section-title"><div class="section-icon">📏</div><span>اندازه‌گیری‌های بدنی</span></div>
+    <div class="info-box">⚠️ همه اندازه‌ها بر حسب <strong>سانتی‌متر</strong> ثبت شوند.</div>
+    <div class="form-row form-row-2">
+      <div class="form-group"><label>قد (سانتی‌متر)</label><input type="number" id="height" placeholder="165" step="0.1"></div>
+      <div class="form-group"><label>وزن فعلی (کیلوگرم)</label><input type="number" id="weight" placeholder="75" step="0.1"></div>
+    </div>
+    <div class="form-row form-row-2">
+      <div class="form-group"><label>وزن هدف (کیلوگرم)</label><input type="number" id="targetWeight" placeholder="65" step="0.1"></div>
+      <div class="form-group"><label>دور گردن (سانتی‌متر)</label><input type="number" id="neckCirc" placeholder="35" step="0.1"></div>
+    </div>
+    <div class="form-row form-row-2">
+      <div class="form-group"><label>عرض شانه (سانتی‌متر)</label><input type="number" id="shoulderWidth" placeholder="40" step="0.1"></div>
+      <div class="form-group"><label>دور سینه (سانتی‌متر)</label><input type="number" id="chestCirc" placeholder="95" step="0.1"></div>
+    </div>
+    <div class="form-row form-row-2">
+      <div class="form-group"><label>دور کمر (سانتی‌متر)</label><input type="number" id="waistCirc" placeholder="80" step="0.1"></div>
+      <div class="form-group"><label>دور شکم (سانتی‌متر)</label><input type="number" id="abdomenCirc" placeholder="90" step="0.1"></div>
+    </div>
+    <div class="form-row form-row-2">
+      <div class="form-group"><label>دور باسن (سانتی‌متر)</label><input type="number" id="hipCirc" placeholder="100" step="0.1"></div>
+      <div class="form-group"><label>دور ران (سانتی‌متر)</label><input type="number" id="thighCirc" placeholder="55" step="0.1"></div>
+    </div>
+    <div class="form-group"><label>دور مچ پا (سانتی‌متر)</label><input type="number" id="ankleCirc" placeholder="22" step="0.1"></div>
+  </div>
+
+  <div class="section yellow">
+    <div class="section-title"><div class="section-icon">💪</div><span>فعالیت و خواب</span></div>
+    <div class="form-group">
+      <label>سطح تحرک</label>
+      <select id="activity">
+        <option value="1.2">کم (بدون ورزش)</option>
+        <option value="1.375" selected>متوسط (۱-۳ روز ورزش در هفته)</option>
+        <option value="1.55">زیاد (۳-۵ روز ورزش)</option>
+        <option value="1.725">خیلی زیاد (روزانه)</option>
+        <option value="1.9">حرفه‌ای (ورزشکار)</option>
+      </select>
+    </div>
+    <div class="form-row form-row-2">
+      <div class="form-group"><label>ساعت خواب شب</label><input type="time" id="sleepTime" value="23:00"></div>
+      <div class="form-group"><label>ساعت بیداری صبح</label><input type="time" id="wakeTime" value="06:00"></div>
+    </div>
+    <div class="form-group">
+      <label>آیا اختلال خواب دارید؟</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="sleepDisorder" data-value="yes">✓ بله</button>
+        <button type="button" class="yn-btn no" data-target="sleepDisorder" data-value="no">✗ خیر</button>
+      </div>
+      <input type="hidden" id="sleepDisorder" value="">
+    </div>
+    <div class="form-group">
+      <label>توضیحات اختلال خواب (در صورت وجود)</label>
+      <textarea id="sleepNote" placeholder="مثال: بی‌خوابی، بیدار شدن‌های شبانه..."></textarea>
+    </div>
+  </div>
+
+  <div class="section green">
+    <div class="section-title"><div class="section-icon">💼</div><span>شغل و استرس</span></div>
+    <div class="form-group"><label>وضعیت شغلی</label><input type="text" id="jobTitle" placeholder="مثال: کارمند اداری، خانه‌دار، معلم"></div>
+    <div class="form-group">
+      <label>میزان استرس شغلی (۱=کم، ۱۰=زیاد)</label>
+      <div class="rating-scale" data-target="jobStress"></div>
+      <input type="hidden" id="jobStress" value="">
+    </div>
+    <div class="form-group">
+      <label>آیا استرس‌های مقطعی خاصی دارید؟</label>
+      <textarea id="temporaryStress" placeholder="مثال: امتحان، طلاق، بیماری خانواده، مشکل مالی..."></textarea>
+    </div>
+  </div>
+
+  <div class="section purple">
+    <div class="section-title"><div class="section-icon">🧠</div><span>ارزیابی روحی و روانی</span></div>
+    <div class="info-box">💡 این بخش برای مقایسه علمی قبل و بعد از درمان استفاده می‌شود.</div>
+    <div class="form-group">
+      <label>۱. چقدر احساس رضایت نسبت به اندام خود دارید؟</label>
+      <div class="rating-scale" data-target="bodySatisfaction"></div>
+      <div class="rating-labels"><span>۱ = عدم رضایت</span><span>۱۰ = رضایت کامل</span></div>
+      <input type="hidden" id="bodySatisfaction" value="">
+    </div>
+    <div class="form-group">
+      <label>۲. چقدر احساس سلامتی جسمی دارید؟</label>
+      <div class="rating-scale" data-target="physicalHealth"></div>
+      <input type="hidden" id="physicalHealth" value="">
+    </div>
+    <div class="form-group">
+      <label>۳. چقدر احساس سلامتی روحی دارید؟</label>
+      <div class="rating-scale" data-target="mentalHealth"></div>
+      <input type="hidden" id="mentalHealth" value="">
+    </div>
+    <div class="form-group">
+      <label>۴. به خاطر اضافه‌وزن احساس شرم دارید؟</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="shame" data-value="yes">بله</button>
+        <button type="button" class="yn-btn no" data-target="shame" data-value="no">خیر</button>
+      </div>
+      <input type="hidden" id="shame" value="">
+    </div>
+    <div class="form-group">
+      <label>۵. آیا موقعیت خاصی را بر اثر چاقی از دست داده‌اید؟</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="lostOpportunity" data-value="yes">بله</button>
+        <button type="button" class="yn-btn no" data-target="lostOpportunity" data-value="no">خیر</button>
+      </div>
+      <input type="hidden" id="lostOpportunity" value="">
+      <textarea id="lostOpportunityNote" placeholder="در صورت بله، توضیح دهید..." style="margin-top:8px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>۶. به خاطر چاقی مورد تمسخر قرار گرفته‌اید؟</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="mocked" data-value="yes">بله</button>
+        <button type="button" class="yn-btn no" data-target="mocked" data-value="no">خیر</button>
+      </div>
+      <input type="hidden" id="mocked" value="">
+    </div>
+    <div class="form-group">
+      <label>۷. آیا مورد سوء‌استفاده قرار گرفته‌اید؟</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="abused" data-value="yes">بله</button>
+        <button type="button" class="yn-btn no" data-target="abused" data-value="no">خیر</button>
+      </div>
+      <input type="hidden" id="abused" value="">
+    </div>
+    <div class="form-group">
+      <label>۸. اقداماتی که در گذشته برای درمان چاقی انجام داده‌اید</label>
+      <textarea id="pastTreatments" placeholder="مثال: رژیم غذایی، جراحی، دارو، ورزش..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>۹. آیا از شما کلاهبرداری مالی شده است؟</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="scammed" data-value="yes">بله</button>
+        <button type="button" class="yn-btn no" data-target="scammed" data-value="no">خیر</button>
+      </div>
+      <input type="hidden" id="scammed" value="">
+    </div>
+    <div class="form-group">
+      <label>۱۰. آیا روش‌های قبلی مؤثر بوده و وزن کم کردید؟</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="pastSuccess" data-value="yes">بله</button>
+        <button type="button" class="yn-btn no" data-target="pastSuccess" data-value="no">خیر</button>
+      </div>
+      <input type="hidden" id="pastSuccess" value="">
+    </div>
+    <div class="form-group">
+      <label>۱۱. آیا پس از درمان دچار بازگشت وزن شده‌اید؟</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="weightRegain" data-value="yes">بله</button>
+        <button type="button" class="yn-btn no" data-target="weightRegain" data-value="no">خیر</button>
+      </div>
+      <input type="hidden" id="weightRegain" value="">
+    </div>
+    <div class="form-group">
+      <label>۱۲. اگر نتیجه نگرفتید، مقصر کیست؟</label>
+      <select id="treatmentBlame">
+        <option value="">انتخاب کنید...</option>
+        <option value="self">الف - خودم</option><option value="doctor">ب - پزشک یا تیم درمان</option>
+        <option value="method">ج - اشتباه بودن روش</option><option value="none">هیچ‌کدام</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section blue">
+    <div class="section-title"><div class="section-icon">📊</div><span>درصد مسئولیت‌پذیری در چاقی</span></div>
+    <div class="info-box">💡 برای هر مورد درصدی از ۰ تا ۱۰۰ تعیین کنید. <strong>مجموع باید ۱۰۰ شود.</strong></div>
+
+    <label style="font-weight:700; color:#0D47A1; margin-bottom:10px; display:block;">🔹 بخش اول: مسئولیت اشخاص در چاقی شما</label>
+    <div class="percent-group">
+      <div class="percent-item"><label>خودم</label><input type="number" class="pct1" id="respSelf" min="0" max="100" value="0"></div>
+      <div class="percent-item"><label>خانواده</label><input type="number" class="pct1" id="respFamily" min="0" max="100" value="0"></div>
+      <div class="percent-item"><label>دیگران</label><input type="number" class="pct1" id="respOthers" min="0" max="100" value="0"></div>
+      <div class="percent-total" id="totalPersons">مجموع: ۰٪</div>
+    </div>
+
+    <label style="font-weight:700; color:#0D47A1; margin: 20px 0 10px; display:block;">🔸 بخش دوم: عوامل ایجاد چاقی</label>
+    <div class="percent-group">
+      <div class="percent-item"><label>سبک زندگی شخصی</label><input type="number" class="pct2" id="factorLifestyle" min="0" max="100" value="0"></div>
+      <div class="percent-item"><label>مشکلات روحی و روانی</label><input type="number" class="pct2" id="factorMental" min="0" max="100" value="0"></div>
+      <div class="percent-item"><label>بحران‌های جامعه</label><input type="number" class="pct2" id="factorSociety" min="0" max="100" value="0"></div>
+      <div class="percent-item"><label>عدم آموزش تغذیه</label><input type="number" class="pct2" id="factorNutritionEdu" min="0" max="100" value="0"></div>
+      <div class="percent-item"><label>عدم آشنایی با ساختار جسمی</label><input type="number" class="pct2" id="factorBodyEdu" min="0" max="100" value="0"></div>
+      <div class="percent-item"><label>فرهنگ خانواده/جامعه</label><input type="number" class="pct2" id="factorCulture" min="0" max="100" value="0"></div>
+      <div class="percent-total" id="totalFactors">مجموع: ۰٪</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><div class="section-icon">⚕️</div><span>سابقه پزشکی و داروها</span></div>
+    <div class="form-group">
+      <label>شرایط پزشکی موجود</label>
+      <div class="checkbox-grid" id="conditionsGrid">
+        <label class="checkbox-item"><input type="checkbox" value="PCOS"> تخمدان پلی‌کیستیک</label>
+        <label class="checkbox-item"><input type="checkbox" value="hypothyroidism"> کم‌کاری تیروئید</label>
+        <label class="checkbox-item"><input type="checkbox" value="hyperthyroidism"> پرکاری تیروئید</label>
+        <label class="checkbox-item"><input type="checkbox" value="insulin_resistance"> مقاومت به انسولین</label>
+        <label class="checkbox-item"><input type="checkbox" value="diabetes"> دیابت</label>
+        <label class="checkbox-item"><input type="checkbox" value="fatty_liver"> کبد چرب</label>
+        <label class="checkbox-item"><input type="checkbox" value="hypertension"> فشار خون بالا</label>
+        <label class="checkbox-item"><input type="checkbox" value="hyperlipidemia"> چربی خون بالا</label>
+        <label class="checkbox-item"><input type="checkbox" value="IBS"> سندرم روده تحریک‌پذیر</label>
+        <label class="checkbox-item"><input type="checkbox" value="anemia"> کم‌خونی</label>
+        <label class="checkbox-item"><input type="checkbox" value="hormonal_issues"> نواقص هورمونی</label>
+        <label class="checkbox-item"><input type="checkbox" value="kidney"> بیماری کلیوی</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>آلرژی‌ها و عدم تحمل غذایی</label>
+      <div class="checkbox-grid" id="allergiesGrid">
+        <label class="checkbox-item"><input type="checkbox" value="egg"> تخم‌مرغ</label>
+        <label class="checkbox-item"><input type="checkbox" value="dairy"> لبنیات</label>
+        <label class="checkbox-item"><input type="checkbox" value="nuts"> آجیل</label>
+        <label class="checkbox-item"><input type="checkbox" value="gluten"> گلوتن</label>
+        <label class="checkbox-item"><input type="checkbox" value="seafood"> غذاهای دریایی</label>
+        <label class="checkbox-item"><input type="checkbox" value="soy"> سویا</label>
+      </div>
+    </div>
+    <div class="form-group"><label>داروهای مصرفی فعلی</label><textarea id="currentMeds" placeholder="نام دارو، دوز و ساعت مصرف..."></textarea></div>
+    <div class="form-group"><label>سابقه مصرف داروهای خاص در گذشته</label><textarea id="pastMeds" placeholder="مثال: داروهای هورمونی، لاغری، کورتون..."></textarea></div>
+    <div class="form-group">
+      <label>سابقه بیماری‌های اعصاب و روان</label>
+      <div class="yn-group">
+        <button type="button" class="yn-btn yes" data-target="psychiatric" data-value="yes">بله</button>
+        <button type="button" class="yn-btn no" data-target="psychiatric" data-value="no">خیر</button>
+      </div>
+      <input type="hidden" id="psychiatric" value="">
+      <textarea id="psychiatricNote" placeholder="در صورت بله، توضیح دهید..." style="margin-top:8px;"></textarea>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="btn btn-print" onclick="window.print()">📄 چاپ / PDF</button>
+    <button class="btn btn-primary" onclick="exportCSV()">📊 خروجی Excel</button>
+    <button class="btn btn-clear" onclick="clearForm()">🗑️ پاک کردن فرم</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const tg = window.Telegram.WebApp;
+const ADMIN_IDS = []; // همان لیست index.html
+
+tg.ready();
+tg.expand();
+
+const user = tg.initDataUnsafe?.user;
+const userId = user?.id || 'guest';
+const isAdmin = ADMIN_IDS.includes(user?.id);
+
+const storageClientsKey = `enerzist_${userId}_clients_full`;
+const storageCurrentKey = `enerzist_${userId}_current_baseline`;
+
+// --- Native BackButton ---
+tg.BackButton.show();
+tg.BackButton.onClick(function() {
+  window.location.href = 'index.html';
+});
+
+// --- Native MainButton برای ذخیره ---
+tg.MainButton.setText('💾 ذخیره پرونده');
+tg.MainButton.color = '#388E3C';
+tg.MainButton.show();
+tg.MainButton.onClick(saveBaseline);
+
+function toPersianNum(n) {
+  var p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return String(n).replace(/\d/g, function(d) { return p[d]; });
+}
+
+function showToast(msg, isError) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error' : '');
+  t.style.display = 'block';
+  setTimeout(function() { t.style.display = 'none'; }, 3000);
+}
+
+// Rating scales
+document.querySelectorAll('.rating-scale').forEach(function(scale) {
+  var target = scale.dataset.target;
+  var html = '';
+  for (var i = 1; i <= 10; i++) {
+    html += '<button type="button" class="rating-btn" data-value="' + i + '">' + toPersianNum(i) + '</button>';
+  }
+  scale.innerHTML = html;
+  scale.querySelectorAll('.rating-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      tg.HapticFeedback.selectionChanged();
+      scale.querySelectorAll('.rating-btn').forEach(function(b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      document.getElementById(target).value = btn.dataset.value;
+    });
+  });
+});
+
+// Yes/No buttons
+document.querySelectorAll('.yn-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    tg.HapticFeedback.impactOccurred('light');
+    var target = btn.dataset.target;
+    var value = btn.dataset.value;
+    var group = btn.parentElement;
+    group.querySelectorAll('.yn-btn').forEach(function(b) { b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    document.getElementById(target).value = value;
+  });
+});
+
+// Checkboxes
+document.addEventListener('change', function(e) {
+  if (e.target.type === 'checkbox') {
+    tg.HapticFeedback.selectionChanged();
+    var parent = e.target.closest('.checkbox-item');
+    if (parent) {
+      if (e.target.checked) parent.classList.add('checked');
+      else parent.classList.remove('checked');
+    }
+  }
+});
+
+// Percentage calculation
+function updateTotal(className, totalId) {
+  var inputs = document.querySelectorAll('.' + className);
+  var total = 0;
+  inputs.forEach(function(inp) {
+    var val = parseInt(inp.value);
+    if (!isNaN(val)) total += val;
+  });
+  var el = document.getElementById(totalId);
+  var text = 'مجموع: ' + toPersianNum(total) + '٪';
+  if (total > 100) {
+    el.className = 'percent-total error';
+    text += ' ⚠️ بیش از ۱۰۰';
+  } else if (total === 100) {
+    el.className = 'percent-total ok';
+    text += ' ✓ صحیح';
+  } else {
+    el.className = 'percent-total';
+    text += ' (باید ۱۰۰ شود)';
+  }
+  el.textContent = text;
+}
+
+document.querySelectorAll('.pct1').forEach(function(inp) {
+  ['input','change','keyup'].forEach(function(ev) {
+    inp.addEventListener(ev, function() { updateTotal('pct1', 'totalPersons'); });
+  });
+});
+document.querySelectorAll('.pct2').forEach(function(inp) {
+  ['input','change','keyup'].forEach(function(ev) {
+    inp.addEventListener(ev, function() { updateTotal('pct2', 'totalFactors'); });
+  });
+});
+
+function togglePregnancy() {
+  var sex = document.getElementById('sex').value;
+  document.getElementById('pregnancyGroup').style.display = sex === 'female' ? 'block' : 'none';
+}
+document.getElementById('sex').addEventListener('change', togglePregnancy);
+togglePregnancy();
+
+function collectData() {
+  var data = {
+    docType: 'baseline',
+    date: new Date().toLocaleDateString('fa-IR'),
+    timestamp: Date.now(),
+    userId: userId,
+    clientName: document.getElementById('clientName').value,
+    fileNumber: document.getElementById('fileNumber').value,
+    phone: document.getElementById('phone').value,
+    sex: document.getElementById('sex').value,
+    age: document.getElementById('age').value,
+    marital: document.getElementById('marital').value,
+    children: document.getElementById('children').value,
+    pregnancy: document.getElementById('pregnancy').value,
+    height: document.getElementById('height').value,
+    weight: document.getElementById('weight').value,
+    targetWeight: document.getElementById('targetWeight').value,
+    neckCirc: document.getElementById('neckCirc').value,
+    shoulderWidth: document.getElementById('shoulderWidth').value,
+    chestCirc: document.getElementById('chestCirc').value,
+    waistCirc: document.getElementById('waistCirc').value,
+    abdomenCirc: document.getElementById('abdomenCirc').value,
+    hipCirc: document.getElementById('hipCirc').value,
+    thighCirc: document.getElementById('thighCirc').value,
+    ankleCirc: document.getElementById('ankleCirc').value,
+    activity: document.getElementById('activity').value,
+    sleepTime: document.getElementById('sleepTime').value,
+    wakeTime: document.getElementById('wakeTime').value,
+    sleepDisorder: document.getElementById('sleepDisorder').value,
+    sleepNote: document.getElementById('sleepNote').value,
+    jobTitle: document.getElementById('jobTitle').value,
+    jobStress: document.getElementById('jobStress').value,
+    temporaryStress: document.getElementById('temporaryStress').value,
+    bodySatisfaction: document.getElementById('bodySatisfaction').value,
+    physicalHealth: document.getElementById('physicalHealth').value,
+    mentalHealth: document.getElementById('mentalHealth').value,
+    shame: document.getElementById('shame').value,
+    lostOpportunity: document.getElementById('lostOpportunity').value,
+    lostOpportunityNote: document.getElementById('lostOpportunityNote').value,
+    mocked: document.getElementById('mocked').value,
+    abused: document.getElementById('abused').value,
+    pastTreatments: document.getElementById('pastTreatments').value,
+    scammed: document.getElementById('scammed').value,
+    pastSuccess: document.getElementById('pastSuccess').value,
+    weightRegain: document.getElementById('weightRegain').value,
+    treatmentBlame: document.getElementById('treatmentBlame').value,
+    respSelf: document.getElementById('respSelf').value,
+    respFamily: document.getElementById('respFamily').value,
+    respOthers: document.getElementById('respOthers').value,
+    factorLifestyle: document.getElementById('factorLifestyle').value,
+    factorMental: document.getElementById('factorMental').value,
+    factorSociety: document.getElementById('factorSociety').value,
+    factorNutritionEdu: document.getElementById('factorNutritionEdu').value,
+    factorBodyEdu: document.getElementById('factorBodyEdu').value,
+    factorCulture: document.getElementById('factorCulture').value,
+    conditions: [],
+    allergies: [],
+    currentMeds: document.getElementById('currentMeds').value,
+    pastMeds: document.getElementById('pastMeds').value,
+    psychiatric: document.getElementById('psychiatric').value,
+    psychiatricNote: document.getElementById('psychiatricNote').value
+  };
+  document.querySelectorAll('#conditionsGrid input:checked').forEach(function(i) { data.conditions.push(i.value); });
+  document.querySelectorAll('#allergiesGrid input:checked').forEach(function(i) { data.allergies.push(i.value); });
+  return data;
+}
+
+function saveBaseline() {
+  try {
+    var data = collectData();
+    if (!data.clientName) {
+      tg.HapticFeedback.notificationOccurred('error');
+      showToast('⚠️ نام مراجع را وارد کنید', true);
+      return;
+    }
+    if (!data.age || !data.weight || !data.height) {
+      tg.HapticFeedback.notificationOccurred('error');
+      showToast('⚠️ سن، وزن و قد اجباری هستند', true);
+      return;
+    }
+
+    var list = JSON.parse(localStorage.getItem(storageClientsKey) || '[]');
+    var existingIndex = -1;
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].clientName === data.clientName && list[i].fileNumber === data.fileNumber) {
+        existingIndex = i;
+        break;
+      }
+    }
+    if (existingIndex > -1) {
+      list[existingIndex].baseline = data;
+    } else {
+      list.push({
+        clientName: data.clientName, fileNumber: data.fileNumber,
+        sex: data.sex, age: data.age, weight: data.weight,
+        date: data.date, baseline: data
+      });
+    }
+    localStorage.setItem(storageClientsKey, JSON.stringify(list));
+    localStorage.setItem(storageCurrentKey, JSON.stringify(data));
+
+    tg.HapticFeedback.notificationOccurred('success');
+    showToast('✅ پرونده ذخیره شد');
+  } catch (e) {
+    tg.HapticFeedback.notificationOccurred('error');
+    showToast('❌ خطا: ' + e.message, true);
+  }
+}
+
+function exportCSV() {
+  try {
+    var data = collectData();
+    var csv = 'Field,Value\n';
+    var fields = {
+      'Client Name': data.clientName, 'File Number': data.fileNumber, 'Phone': data.phone,
+      'Sex': data.sex, 'Age': data.age, 'Marital Status': data.marital,
+      'Height (cm)': data.height, 'Weight (kg)': data.weight, 'Target Weight (kg)': data.targetWeight,
+      'Neck (cm)': data.neckCirc, 'Shoulder Width (cm)': data.shoulderWidth, 'Chest (cm)': data.chestCirc,
+      'Waist (cm)': data.waistCirc, 'Abdomen (cm)': data.abdomenCirc, 'Hip (cm)': data.hipCirc,
+      'Thigh (cm)': data.thighCirc, 'Ankle (cm)': data.ankleCirc, 'Activity Level': data.activity,
+      'Sleep Time': data.sleepTime, 'Wake Time': data.wakeTime, 'Job Title': data.jobTitle,
+      'Job Stress (1-10)': data.jobStress, 'Body Satisfaction (1-10)': data.bodySatisfaction,
+      'Physical Health (1-10)': data.physicalHealth, 'Mental Health (1-10)': data.mentalHealth,
+      'Shame': data.shame, 'Lost Opportunity': data.lostOpportunity, 'Mocked': data.mocked,
+      'Abused': data.abused, 'Scammed': data.scammed, 'Past Success': data.pastSuccess,
+      'Weight Regain': data.weightRegain, 'Treatment Blame': data.treatmentBlame,
+      'Responsibility Self (%)': data.respSelf, 'Responsibility Family (%)': data.respFamily,
+      'Responsibility Others (%)': data.respOthers, 'Factor Lifestyle (%)': data.factorLifestyle,
+      'Factor Mental (%)': data.factorMental, 'Factor Society (%)': data.factorSociety,
+      'Factor Nutrition Edu (%)': data.factorNutritionEdu, 'Factor Body Edu (%)': data.factorBodyEdu,
+      'Factor Culture (%)': data.factorCulture, 'Medical Conditions': data.conditions.join('; '),
+      'Allergies': data.allergies.join('; '), 'Current Medications': data.currentMeds,
+      'Past Medications': data.pastMeds, 'Psychiatric History': data.psychiatric, 'Date': data.date
+    };
+    for (var key in fields) {
+      var val = String(fields[key] || '').replace(/"/g, '""');
+      csv += '"' + key + '","' + val + '"\n';
+    }
+    var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'enerzist_baseline_' + (data.clientName || 'client') + '_' + Date.now() + '.csv';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 100);
+    tg.HapticFeedback.impactOccurred('medium');
+    showToast('📊 فایل Excel دانلود شد');
+  } catch (err) {
+    showToast('❌ خطا: ' + err.message, true);
+  }
+}
+
+function clearForm() {
+  tg.showConfirm('پاک کردن تمام اطلاعات؟', function(confirmed) {
+    if (confirmed) location.reload();
+  });
+}
+
+// Load existing data
+window.addEventListener('load', function() {
+  try {
+    var saved = localStorage.getItem(storageCurrentKey);
+    if (saved) {
+      var data = JSON.parse(saved);
+      Object.keys(data).forEach(function(key) {
+        var el = document.getElementById(key);
+        if (el && typeof data[key] === 'string') el.value = data[key];
+      });
+      ['bodySatisfaction','physicalHealth','mentalHealth','jobStress'].forEach(function(key) {
+        var val = data[key];
+        if (val) {
+          var scale = document.querySelector('[data-target="' + key + '"]');
+          if (scale) {
+            var btn = scale.querySelector('[data-value="' + val + '"]');
+            if (btn) btn.classList.add('selected');
+          }
+        }
+      });
+      ['sleepDisorder','shame','lostOpportunity','mocked','abused','scammed','pastSuccess','weightRegain','psychiatric'].forEach(function(key) {
+        var val = data[key];
+        if (val) {
+          var btn = document.querySelector('.yn-btn[data-target="' + key + '"][data-value="' + val + '"]');
+          if (btn) btn.classList.add('selected');
+        }
+      });
+      if (data.conditions) {
+        data.conditions.forEach(function(v) {
+          var cb = document.querySelector('#conditionsGrid input[value="' + v + '"]');
+          if (cb) { cb.checked = true; cb.closest('.checkbox-item').classList.add('checked'); }
+        });
+      }
+      if (data.allergies) {
+        data.allergies.forEach(function(v) {
+          var cb = document.querySelector('#allergiesGrid input[value="' + v + '"]');
+          if (cb) { cb.checked = true; cb.closest('.checkbox-item').classList.add('checked'); }
+        });
+      }
+      togglePregnancy();
+      updateTotal('pct1', 'totalPersons');
+      updateTotal('pct2', 'totalFactors');
+    }
+  } catch (e) {}
+});
+</script>
+
+</body>
+</html>

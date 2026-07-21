@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>برنامه غذایی - Enerzist</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --card: #111;
+    --border: #222;
+    --text: #f0f0f0;
+    --muted: #888;
+    --orange: #ff6b35;
+    --orange-dim: rgba(255,107,53,0.15);
+    --green: #4caf50;
+    --blue: #2196f3;
+    --red: #f44336;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+  .header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 { font-size: 18px; color: var(--orange); }
+  .header p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .role-banner {
+    padding: 8px 16px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .role-banner.consultant { background: rgba(33,150,243,0.15); color: var(--blue); }
+  .role-banner.client { background: var(--orange-dim); color: var(--orange); }
+  .section { padding: 16px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .form-group { margin-bottom: 12px; }
+  .form-group label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+  .form-group input, .form-group select {
+    width: 100%;
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 14px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn:active { opacity: 0.8; }
+  .btn-primary { background: var(--orange); color: #fff; }
+  .btn-secondary { background: #1a1a1a; color: var(--text); border: 1px solid var(--border); }
+  .view-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .view-toggle button {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #1a1a1a;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .view-toggle button.active {
+    background: var(--orange-dim);
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+  /* Table view */
+  .meal-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .meal-table th {
+    background: #1a1a1a;
+    color: var(--muted);
+    padding: 8px 6px;
+    text-align: right;
+    border-bottom: 1px solid var(--border);
+  }
+  .meal-table td {
+    padding: 8px 6px;
+    border-bottom: 1px solid #1a1a1a;
+    vertical-align: middle;
+  }
+  .meal-time-box {
+    background: var(--orange);
+    color: #fff;
+    border-radius: 6px;
+    padding: 3px 7px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  /* Card view */
+  .meal-card {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+  .meal-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .meal-card-name { font-size: 14px; font-weight: 600; }
+  .meal-card-body { font-size: 12px; color: var(--muted); }
+  .macro-row { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+  .macro-badge {
+    background: var(--border);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+  }
+  .macro-badge.cal { color: var(--orange); }
+  .macro-badge.pro { color: var(--green); }
+  .macro-badge.carb { color: var(--blue); }
+  .macro-badge.fat { color: #ffc107; }
+  /* Summary */
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .summary-item {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+  }
+  .summary-item .val { font-size: 20px; font-weight: 700; color: var(--orange); }
+  .summary-item .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+  .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+  #plan-output { display: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🥗 برنامه غذایی</h1>
+  <p id="header-sub">تولید برنامه شخصی‌سازی‌شده</p>
+</div>
+
+<div id="role-banner-el" class="role-banner" style="display:none"></div>
+
+<div class="section">
+  <!-- Input Form -->
+  <div class="card" id="input-card">
+    <div class="card-title">اطلاعات پایه</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>وزن (kg)</label>
+        <input type="number" id="weight" placeholder="70">
+      </div>
+      <div class="form-group">
+        <label>قد (cm)</label>
+        <input type="number" id="height" placeholder="175">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>سن</label>
+        <input type="number" id="age" placeholder="25">
+      </div>
+      <div class="form-group">
+        <label>جنسیت</label>
+        <select id="gender">
+          <option value="male">مرد</option>
+          <option value="female">زن</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>سطح فعالیت</label>
+      <select id="activity">
+        <option value="1.2">کم‌تحرک</option>
+        <option value="1.375">کمی فعال</option>
+        <option value="1.55" selected>متوسط فعال</option>
+        <option value="1.725">خیلی فعال</option>
+        <option value="1.9">فوق‌العاده فعال</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>هدف</label>
+      <select id="goal">
+        <option value="cut">کاهش وزن</option>
+        <option value="maintain" selected>حفظ وزن</option>
+        <option value="bulk">افزایش وزن</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>تعداد وعده‌ها</label>
+      <select id="meals-count">
+        <option value="3">۳ وعده</option>
+        <option value="4">۴ وعده</option>
+        <option value="5" selected>۵ وعده</option>
+        <option value="6">۶ وعده</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="generatePlan()">🔥 تولید برنامه غذایی</button>
+  </div>
+
+  <!-- Output -->
+  <div id="plan-output">
+    <div class="card">
+      <div class="card-title">📊 خلاصه روزانه</div>
+      <div class="summary-grid" id="summary-grid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🍽️ وعده‌های غذایی</div>
+      <div class="view-toggle">
+        <button id="btn-table" class="active" onclick="setView('table')">📋 جدولی</button>
+        <button id="btn-cards" onclick="setView('cards')">🃏 کارتی</button>
+      </div>
+      <div id="view-table"></div>
+      <div id="view-cards" style="display:none"></div>
+    </div>
+
+    <button class="btn btn-secondary" style="margin-top:4px" onclick="resetForm()">🔄 تولید مجدد</button>
+  </div>
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const ADMIN_IDS = [123456789]; // آیدی‌های مشاور
+const userId = tg.initDataUnsafe?.user?.id;
+const isConsultant = ADMIN_IDS.includes(userId);
+
+// Back button
+tg.BackButton.show();
+tg.BackButton.onClick(() => tg.close());
+
+// Role banner
+const banner = document.getElementById('role-banner-el');
+banner.style.display = 'block';
+if (isConsultant) {
+  banner.className = 'role-banner consultant';
+  banner.innerHTML = '👨‍⚕️ <strong>حالت مشاور</strong> | دسترسی کامل';
+} else {
+  banner.className = 'role-banner client';
+  banner.innerHTML = '👤 <strong>حالت کاربر</strong> | برنامه شخصی';
+}
+
+// Storage key per user
+const storageKey = `enerzist_meal_${userId || 'guest'}`;
+
+function calcTDEE(w, h, a, gender, activity) {
+  const bmr = gender === 'male'
+    ? 10 * w + 6.25 * h - 5 * a + 5
+    : 10 * w + 6.25 * h - 5 * a - 161;
+  return Math.round(bmr * activity);
+}
+
+function getMacros(tdee, goal) {
+  const cal = goal === 'cut' ? tdee - 400 : goal === 'bulk' ? tdee + 300 : tdee;
+  const protein = Math.round((cal * 0.30) / 4);
+  const fat = Math.round((cal * 0.25) / 9);
+  const carb = Math.round((cal * 0.45) / 4);
+  return { cal, protein, fat, carb };
+}
+
+const MEAL_NAMES = ['صبحانه', 'میان‌وعده صبح', 'ناهار', 'میان‌وعده عصر', 'شام', 'وعده شب'];
+const MEAL_TIMES = ['07:00', '10:00', '13:00', '16:00', '19:30', '22:00'];
+const MEAL_FOODS = [
+  'تخم‌مرغ + نان سبوس‌دار + پنیر',
+  'میوه + مغزیجات',
+  'برنج + مرغ + سالاد',
+  'ماست + خرما',
+  'ماهی / گوشت + سبزیجات',
+  'شیر + جو دوسر'
+];
+
+function generatePlan() {
+  const w = +document.getElementById('weight').value;
+  const h = +document.getElementById('height').value;
+  const a = +document.getElementById('age').value;
+  const gender = document.getElementById('gender').value;
+  const activity = +document.getElementById('activity').value;
+  const goal = document.getElementById('goal').value;
+  const mealsCount = +document.getElementById('meals-count').value;
+
+  if (!w || !h || !a) {
+    tg.HapticFeedback.notificationOccurred('error');
+    tg.showAlert('لطفاً وزن، قد و سن را وارد کنید.');
+    return;
+  }
+
+  tg.HapticFeedback.impactOccurred('medium');
+
+  const tdee = calcTDEE(w, h, a, gender, activity);
+  const macros = getMacros(tdee, goal);
+
+  // Summary
+  document.getElementById('summary-grid').innerHTML = `
+    <div class="summary-item"><div class="val">${macros.cal}</div><div class="lbl">کالری روزانه</div></div>
+    <div class="summary-item"><div class="val">${macros.protein}g</div><div class="lbl">پروتئین</div></div>
+    <div class="summary-item"><div class="val">${macros.carb}g</div><div class="lbl">کربوهیدرات</div></div>
+    <div class="summary-item"><div class="val">${macros.fat}g</div><div class="lbl">چربی</div></div>
+  `;
+
+  // Build meals
+  const perMeal = Math.round(macros.cal / mealsCount);
+  const meals = Array.from({length: mealsCount}, (_, i) => ({
+    time: MEAL_TIMES[i],
+    name: MEAL_NAMES[i],
+    food: MEAL_FOODS[i],
+    cal: perMeal,
+    protein: Math.round(macros.protein / mealsCount),
+    carb: Math.round(macros.carb / mealsCount),
+    fat: Math.round(macros.fat / mealsCount),
+  }));
+
+  // Table view
+  document.getElementById('view-table').innerHTML = `
+    <div style="overflow-x:auto">
+    <table class="meal-table">
+      <thead><tr>
+        <th>زمان</th><th>وعده</th><th>غذا</th><th>کالری</th><th>P</th><th>C</th><th>F</th>
+      </tr></thead>
+      <tbody>${meals.map(m => `
+        <tr>
+          <td><span class="meal-time-box">${m.time}</span></td>
+          <td>${m.name}</td>
+          <td style="color:var(--muted);font-size:11px">${m.food}</td>
+          <td style="color:var(--orange)">${m.cal}</td>
+          <td style="color:var(--green)">${m.protein}</td>
+          <td style="color:var(--blue)">${m.carb}</td>
+          <td style="color:#ffc107">${m.fat}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+    </div>
+  `;
+
+  // Card view
+  document.getElementById('view-cards').innerHTML = meals.map(m => `
+    <div class="meal-card">
+      <div class="meal-card-header">
+        <span class="meal-card-name">${m.name}</span>
+        <span class="meal-time-box">${m.time}</span>
+      </div>
+      <div class="meal-card-body">${m.food}</div>
+      <div class="macro-row">
+        <span class="macro-badge cal">🔥 ${m.cal} kcal</span>
+        <span class="macro-badge pro">💪 ${m.protein}g</span>
+        <span class="macro-badge carb">🌾 ${m.carb}g</span>
+        <span class="macro-badge fat">🥑 ${m.fat}g</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Save to localStorage with userId key
+  localStorage.setItem(storageKey, JSON.stringify({ macros, meals, goal }));
+
+  document.getElementById('input-card').style.display = 'none';
+  document.getElementById('plan-output').style.display = 'block';
+}
+
+function setView(v) {
+  document.getElementById('view-table').style.display = v === 'table' ? 'block' : 'none';
+  document.getElementById('view-cards').style.display = v === 'cards' ? 'block' : 'none';
+  document.getElementById('btn-table').className = v === 'table' ? 'active' : '';
+  document.getElementById('btn-cards').className = v === 'cards' ? 'active' : '';
+  tg.HapticFeedback.selectionChanged();
+}
+
+function resetForm() {
+  tg.HapticFeedback.impactOccurred('light');
+  document.getElementById('input-card').style.display = 'block';
+  document.getElementById('plan-output').style.display = 'none';
+}
+
+// Load saved plan if exists
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem(storageKey);
+  if (saved) {
+    // Could auto-restore — for now just show form fresh
+  }
+});
+</script>
+</body>
+</html>

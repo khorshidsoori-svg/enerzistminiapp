@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سند ۴ | ثبت وزن ناشتا - Enerzist</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #D32F2F; --orange: #F57C00; --yellow: #FBC02D;
+    --green: #388E3C; --dark-red: #B71C1C; --dark-orange: #E65100;
+    --dark-green: #1B5E20; --muted: #757575;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: var(--tg-theme-bg-color, #E8F5E9);
+    color: var(--tg-theme-text-color, #212121);
+    line-height: 1.7; padding: 15px;
+  }
+  .header {
+    text-align: center; padding: 16px;
+    background: var(--tg-theme-secondary-bg-color, white);
+    border-radius: 16px; margin-bottom: 16px;
+    border-top: 4px solid var(--green);
+  }
+  .logo-row { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--green), var(--dark-green));
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; color: white; font-weight: 900; font-size: 18px;
+  }
+  .logo-text { font-size: 22px; font-weight: 800; color: var(--dark-green); }
+  .header h1 { color: var(--dark-green); font-size: 17px; margin: 6px 0 2px; }
+  .card {
+    background: var(--tg-theme-secondary-bg-color, white);
+    border-radius: 12px; padding: 14px; margin-bottom: 12px;
+  }
+  .info-alert {
+    background: #E8F5E9; border-right: 4px solid var(--green);
+    padding: 10px 12px; border-radius: 8px;
+    font-size: 12px; color: var(--dark-green); margin-bottom: 14px;
+  }
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 13px; }
+  .form-group input {
+    width: 100%; padding: 10px; border: 1.5px solid rgba(0,0,0,0.12);
+    border-radius: 8px; font-family: inherit; font-size: 14px;
+    background: var(--tg-theme-bg-color, #FAFAFA);
+    color: var(--tg-theme-text-color, #212121);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn {
+    width: 100%; padding: 13px; border: none; border-radius: 10px;
+    font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+    color: var(--tg-theme-button-text-color, white); margin-top: 8px;
+    background: var(--tg-theme-button-color, var(--green));
+  }
+  .btn-secondary {
+    background: var(--tg-theme-secondary-bg-color, white);
+    color: var(--green); border: 2px solid var(--green);
+  }
+  .btn-blue { background: #1976D2; }
+  .btn-orange { background: var(--orange); }
+  .btn-sm { padding: 9px; font-size: 12px; margin-top: 0; }
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .stat-card {
+    background: var(--tg-theme-secondary-bg-color, white);
+    padding: 12px 8px; border-radius: 10px; text-align: center;
+    border-top: 3px solid var(--green);
+  }
+  .stat-card.orange { border-top-color: var(--orange); }
+  .stat-card.red { border-top-color: var(--red); }
+  .stat-card.yellow { border-top-color: var(--yellow); }
+  .stat-card .label { font-size: 11px; color: var(--muted); font-weight: 600; }
+  .stat-card .value { font-size: 20px; font-weight: 800; color: var(--dark-green); margin: 4px 0; }
+  .stat-card.orange .value { color: var(--dark-orange); }
+  .stat-card.red .value { color: var(--dark-red); }
+  .stat-card .unit { font-size: 10px; color: var(--muted); }
+  .section-title {
+    background: linear-gradient(135deg, var(--green), var(--dark-green));
+    color: white; padding: 10px 14px; font-size: 14px; font-weight: 700;
+    margin-bottom: 10px; border-radius: 8px;
+  }
+  .table-wrap { overflow-x: auto; }
+  .weight-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 420px; }
+  .weight-table th {
+    background: linear-gradient(135deg, var(--green), var(--dark-green));
+    color: white; padding: 9px 5px; font-size: 11px; font-weight: 700;
+    border: 1px solid var(--dark-green);
+  }
+  .weight-table td {
+    padding: 7px 5px; border: 1px solid #DDD;
+    text-align: center; font-size: 12px;
+  }
+  .weight-table td:first-child {
+    background: #E8F5E9; font-weight: 800; color: var(--dark-green); width: 40px;
+  }
+  .weight-table tr:nth-child(even) td:not(:first-child) { background: #F9FBF9; }
+  .weight-table input {
+    width: 100%; padding: 4px; border: none; background: transparent;
+    text-align: center; font-family: inherit; font-size: 12px; font-weight: 600;
+    color: var(--tg-theme-text-color, #212121);
+  }
+  .weight-table input:focus { outline: 2px solid var(--green); background: white; border-radius: 4px; }
+  .diff-cell { font-weight: 700; }
+  .diff-neg { color: var(--dark-green); }
+  .diff-pos { color: var(--dark-red); }
+  .chart-wrap {
+    background: var(--tg-theme-secondary-bg-color, white);
+    border-radius: 12px; padding: 16px; margin-bottom: 12px;
+  }
+  .chart-title { font-size: 14px; font-weight: 800; color: var(--dark-green); margin-bottom: 12px; text-align: center; }
+  .chart-svg { width: 100%; height: 220px; display: block; }
+  .instructions {
+    background: #FFF3E0; border-right: 4px solid var(--orange);
+    padding: 12px; border-radius: 10px; margin-bottom: 12px; font-size: 12px;
+  }
+  .instructions h4 { color: var(--dark-orange); margin-bottom: 6px; }
+  .instructions ul { padding-right: 18px; line-height: 2; }
+  .client-strip {
+    background: #E8F5E9; padding: 10px 12px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; color: var(--dark-green);
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .footer {
+    background: linear-gradient(135deg, var(--dark-red), var(--dark-orange));
+    color: white; padding: 12px; border-radius: 10px;
+    margin-top: 16px; text-align: center; font-size: 11px;
+  }
+  .contact-info { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+  .contact-item { background: rgba(255,255,255,0.15); padding: 3px 8px; border-radius: 10px; font-size: 11px; }
+  #formView { display: block; }
+  #reportView { display: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-row">
+    <div class="logo-icon">E</div>
+    <div class="logo-text">Enerzist</div>
+  </div>
+  <h1>⚖️ جدول ثبت وزن روزانه ناشتا</h1>
+  <p style="color:var(--muted);font-size:11px;">۳۰ روز پیگیری روزانه</p>
+</div>
+
+<!-- FORM VIEW -->
+<div id="formView">
+  <div class="card">
+    <div class="info-alert">✅ وزن ناشتای صبح، دقیق‌ترین شاخص ارزیابی کاهش وزن است. هر روز پس از بیداری و قبل از خوردن هر چیزی، وزن‌گیری کنید.</div>
+    <button class="btn btn-blue" onclick="loadFromBaseline()" style="margin-top:0;margin-bottom:12px;">📥 بارگذاری اطلاعات مراجع</button>
+    <div class="form-group">
+      <label>نام مراجع</label>
+      <input type="text" id="clientName" placeholder="مثال: خانم احمدی">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>شماره پرونده</label>
+        <input type="text" id="fileNumber">
+      </div>
+      <div class="form-group">
+        <label>تاریخ شروع</label>
+        <input type="text" id="startDate" placeholder="۱۴۰۳/۰۸/۰۱">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>وزن اولیه (کیلوگرم)</label>
+        <input type="number" id="initialWeight" step="0.1" placeholder="75">
+      </div>
+      <div class="form-group">
+        <label>وزن هدف (کیلوگرم)</label>
+        <input type="number" id="targetWeight" step="0.1" placeholder="65">
+      </div>
+    </div>
+    <button class="btn" onclick="generateLog()">🚀 تولید جدول ماهانه</button>
+  </div>
+</div>
+
+<!-- REPORT VIEW -->
+<div id="reportView">
+  <div class="action-grid">
+    <button class="btn btn-orange btn-sm" onclick="window.print()">📄 چاپ / PDF</button>
+    <button class="btn btn-secondary btn-sm" onclick="saveWeights()">💾 ذخیره</button>
+    <button class="btn btn-sm" onclick="exportCSV()">📊 خروجی Excel</button>
+    <button class="btn btn-blue btn-sm" onclick="updateChart()">📈 به‌روز چارت</button>
+  </div>
+
+  <div class="client-strip">
+    <span>👤 <span id="rName"></span></span>
+    <span>📁 <span id="rFile"></span></span>
+    <span>📅 <span id="rDate"></span></span>
+    <span>⚖️ <span id="rInitial"></span> → <span id="rTarget"></span> کیلوگرم</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="label">وزن اولیه</div><div class="value" id="sInitial">-</div><div class="unit">کیلوگرم</div></div>
+    <div class="stat-card orange"><div class="label">وزن فعلی</div><div class="value" id="sCurrent">-</div><div class="unit">کیلوگرم</div></div>
+    <div class="stat-card red"><div class="label">کاهش وزن</div><div class="value" id="sLoss">-</div><div class="unit">کیلوگرم</div></div>
+    <div class="stat-card yellow"><div class="label">درصد پیشرفت</div><div class="value" id="sProgress">-</div><div class="unit">به سمت هدف</div></div>
+  </div>
+
+  <div class="instructions">
+    <h4>📖 راهنمای وزن‌گیری صحیح</h4>
+    <ul>
+      <li>هر روز صبح <strong>پس از بیداری و قبل از خوردن آب/غذا</strong></li>
+      <li>پس از استفاده از دستشویی</li>
+      <li>با ترازوی مشابه و در همان مکان</li>
+      <li>با لباس مشابه یا بدون لباس</li>
+      <li>ثبت وزن با دقت ۱۰۰ گرم (مثال: ۷۵.۳)</li>
+    </ul>
+  </div>
+
+  <div class="section-title">📋 جدول ثبت وزن روزانه</div>
+  <div class="card" style="padding:10px;">
+    <div class="table-wrap">
+      <table class="weight-table">
+        <thead>
+          <tr>
+            <th>روز</th><th>تاریخ</th><th>وزن (کیلوگرم)</th><th>تغییر</th><th>یادداشت</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-title">📈 نمودار روند کاهش وزن</div>
+  <div class="chart-wrap">
+    <div class="chart-title">Weight Trend Chart</div>
+    <svg class="chart-svg" id="weightChart" viewBox="0 0 800 220" preserveAspectRatio="xMidYMid meet"></svg>
+    <p style="text-align:center;color:var(--muted);font-size:11px;margin-top:8px;">نمودار با وارد کردن وزن‌ها به‌روز می‌شود</p>
+  </div>
+
+  <div class="footer">
+    <strong>Enerzist</strong> © مرکز تخصصی تغذیه
+    <div class="contact-info">
+      <div class="contact-item">📱 ۰۹۰۲۹۴۷۲۷۳۳</div>
+      <div class="contact-item">💬 تلگرام</div>
+      <div class="contact-item">📢 واتس‌اپ</div>
+      <div class="contact-item">✉️ بله</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const userId = tg.initDataUnsafe?.user?.id || 'guest';
+const STORAGE_KEY = `enerzist_weightlog_${userId}`;
+
+let initW = 0, targetW = 0;
+let debounceTimer = null;
+
+function p(n) {
+  return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+function toast(msg, err) {
+  tg.HapticFeedback.notificationOccurred(err ? 'error' : 'success');
+  tg.showAlert(msg);
+}
+
+function loadFromBaseline() {
+  try {
+    const data = JSON.parse(localStorage.getItem('enerzist_current_baseline'));
+    if (!data) { toast('⚠️ ابتدا سند ۱ را تکمیل کنید', true); return; }
+    document.getElementById('clientName').value = data.clientName || '';
+    document.getElementById('fileNumber').value = data.fileNumber || '';
+    document.getElementById('initialWeight').value = data.weight || '';
+    document.getElementById('targetWeight').value = data.targetWeight || '';
+    document.getElementById('startDate').value = new Date().toLocaleDateString('fa-IR');
+    tg.HapticFeedback.impactOccurred('light');
+  } catch(e) { toast('❌ خطا در بارگذاری', true); }
+}
+
+function generateLog() {
+  const name = document.getElementById('clientName').value || '...';
+  const file = document.getElementById('fileNumber').value || '...';
+  const date = document.getElementById('startDate').value || new Date().toLocaleDateString('fa-IR');
+  initW = parseFloat(document.getElementById('initialWeight').value) || 0;
+  targetW = parseFloat(document.getElementById('targetWeight').value) || 0;
+
+  if (!initW || !targetW) { toast('⚠️ وزن اولیه و هدف را وارد کنید', true); return; }
+
+  document.getElementById('rName').textContent = name;
+  document.getElementById('rFile').textContent = file;
+  document.getElementById('rDate').textContent = date;
+  document.getElementById('rInitial').textContent = p(initW);
+  document.getElementById('rTarget').textContent = p(targetW);
+  document.getElementById('sInitial').textContent = p(initW);
+  document.getElementById('sCurrent').textContent = p(initW);
+  document.getElementById('sLoss').textContent = '۰';
+  document.getElementById('sProgress').textContent = '۰٪';
+
+  // Try to restore saved weights
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) {}
+
+  let html = '';
+  for (let i = 1; i <= 30; i++) {
+    const sw = saved.weights?.[i-1] || '';
+    const sd = saved.dates?.[i-1] || '';
+    const sn = saved.notes?.[i-1] || '';
+    html += `<tr>
+      <td>${p(i)}</td>
+      <td><input type="text" class="date-inp" placeholder="___/___/___" value="${sd}"></td>
+      <td><input type="number" class="w-inp" step="0.1" placeholder="0.0" value="${sw}"></td>
+      <td class="diff-cell" data-i="${i}">-</td>
+      <td><input type="text" class="note-inp" placeholder="یادداشت..." value="${sn}"></td>
+    </tr>`;
+  }
+  document.getElementById('tableBody').innerHTML = html;
+
+  document.querySelectorAll('.w-inp').forEach(inp => {
+    inp.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => { calcStats(); updateChart(); }, 300);
+    });
+  });
+
+  document.getElementById('formView').style.display = 'none';
+  document.getElementById('reportView').style.display = 'block';
+
+  tg.BackButton.show();
+  tg.BackButton.onClick(() => {
+    tg.HapticFeedback.impactOccurred('light');
+    document.getElementById('reportView').style.display = 'none';
+    document.getElementById('formView').style.display = 'block';
+    tg.BackButton.hide();
+  });
+
+  calcStats();
+  updateChart();
+  tg.HapticFeedback.impactOccurred('medium');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function calcStats() {
+  const inputs = document.querySelectorAll('.w-inp');
+  let last = initW;
+  let weights = [];
+
+  inputs.forEach((inp, i) => {
+    const val = parseFloat(inp.value);
+    const cell = document.querySelector(`.diff-cell[data-i="${i+1}"]`);
+    if (val && !isNaN(val)) {
+      weights.push(val);
+      const diff = val - last;
+      if (cell) {
+        if (diff < 0) { cell.textContent = '↓ ' + p(Math.abs(diff).toFixed(1)); cell.className = 'diff-cell diff-neg'; }
+        else if (diff > 0) { cell.textContent = '↑ ' + p(diff.toFixed(1)); cell.className = 'diff-cell diff-pos'; }
+        else { cell.textContent = '='; cell.className = 'diff-cell'; }
+      }
+      last = val;
+    } else if (cell) { cell.textContent = '-'; cell.className = 'diff-cell'; }
+  });
+
+  if (weights.length) {
+    const cur = weights[weights.length - 1];
+    const loss = initW - cur;
+    const goal = initW - targetW;
+    const prog = goal > 0 ? Math.round((loss / goal) * 100) : 0;
+    document.getElementById('sCurrent').textContent = p(cur);
+    document.getElementById('sLoss').textContent = (loss >= 0 ? '' : '+') + p(loss.toFixed(1));
+    document.getElementById('sProgress').textContent = p(prog) + '٪';
+  }
+}
+
+function updateChart() {
+  const inputs = document.querySelectorAll('.w-inp');
+  const data = [{ day: 0, w: initW }];
+  inputs.forEach((inp, i) => {
+    const val = parseFloat(inp.value);
+    if (val && !isNaN(val)) data.push({ day: i + 1, w: val });
+  });
+
+  const svg = document.getElementById('weightChart');
+  if (!svg) return;
+
+  const W = 800, H = 220;
+  const pad = { t: 20, r: 30, b: 35, l: 55 };
+  const cW = W - pad.l - pad.r, cH = H - pad.t - pad.b;
+
+  let minW = Math.min(targetW - 1, initW - 1);
+  let maxW = initW + 1;
+  data.forEach(d => { if (d.w < minW) minW = d.w - 1; if (d.w > maxW) maxW = d.w + 1; });
+
+  const xS = day => pad.l + (day / 30) * cW;
+  const yS = w => pad.t + ((maxW - w) / (maxW - minW)) * cH;
+
+  let s = '<defs><linearGradient id="g" x1="0%" y1="0%" x2="0%" y2="100%">' +
+    '<stop offset="0%" stop-color="#388E3C" stop-opacity="0.3"/>' +
+    '<stop offset="100%" stop-color="#388E3C" stop-opacity="0"/>' +
+    '</linearGradient></defs>';
+
+  for (let i = 0; i <= 5; i++) {
+    const y = pad.t + (i / 5) * cH;
+    const wv = maxW - (i / 5) * (maxW - minW);
+    s += `<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="#EEE" stroke-dasharray="3,3"/>`;
+    s += `<text x="${pad.l-8}" y="${y+4}" text-anchor="end" font-size="10" fill="#888" font-family="Vazirmatn">${p(wv.toFixed(1))}</text>`;
+  }
+  for (let d = 0; d <= 30; d += 5) {
+    const x = xS(d);
+    s += `<line x1="${x}" y1="${H-pad.b}" x2="${x}" y2="${H-pad.b+4}" stroke="#888"/>`;
+    s += `<text x="${x}" y="${H-pad.b+16}" text-anchor="middle" font-size="10" fill="#888" font-family="Vazirmatn">${p(d)}</text>`;
+  }
+
+  const yt = yS(targetW);
+  s += `<line x1="${pad.l}" y1="${yt}" x2="${W-pad.r}" y2="${yt}" stroke="#D32F2F" stroke-width="2" stroke-dasharray="5,5"/>`;
+  s += `<text x="${W-pad.r-4}" y="${yt-4}" text-anchor="end" font-size="10" fill="#D32F2F" font-weight="700" font-family="Vazirmatn">هدف: ${p(targetW)}</text>`;
+
+  if (data.length > 1) {
+    let path = `M ${xS(data[0].day)} ${yS(data[0].w)}`;
+    for (let i = 1; i < data.length; i++) path += ` L ${xS(data[i].day)} ${yS(data[i].w)}`;
+    const area = path + ` L ${xS(data[data.length-1].day)} ${H-pad.b} L ${xS(data[0].day)} ${H-pad.b} Z`;
+    s += `<path d="${area}" fill="url(#g)"/>`;
+    s += `<path d="${path}" fill="none" stroke="#388E3C" stroke-width="2.5"/>`;
+    data.forEach(d => {
+      s += `<circle cx="${xS(d.day)}" cy="${yS(d.w)}" r="4" fill="white" stroke="#388E3C" stroke-width="2"/>`;
+      s += `<text x="${xS(d.day)}" y="${yS(d.w)-8}" text-anchor="middle" font-size="9" fill="#1B5E20" font-weight="700" font-family="Vazirmatn">${p(d.w)}</text>`;
+    });
+  }
+
+  s += `<text x="${W/2}" y="${H-2}" text-anchor="middle" font-size="11" fill="#666" font-weight="700" font-family="Vazirmatn">روز</text>`;
+  svg.innerHTML = s;
+}
+
+function saveWeights() {
+  try {
+    const weights = [], dates = [], notes = [];
+    document.querySelectorAll('#tableBody tr').forEach(row => {
+      weights.push(row.querySelector('.w-inp')?.value || '');
+      dates.push(row.querySelector('.date-inp')?.value || '');
+      notes.push(row.querySelector('.note-inp')?.value || '');
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      clientName: document.getElementById('rName').textContent,
+      initW, targetW, weights, dates, notes,
+      saved: new Date().toISOString()
+    }));
+    toast('✅ ذخیره شد');
+  } catch(e) { toast('❌ خطا در ذخیره', true); }
+}
+
+function exportCSV() {
+  try {
+    let csv = 'Day,Date,Weight (kg),Change (kg),Notes\n';
+    let last = initW;
+    document.querySelectorAll('#tableBody tr').forEach((row, i) => {
+      const date = row.querySelector('.date-inp')?.value || '';
+      const w = row.querySelector('.w-inp')?.value || '';
+      const note = row.querySelector('.note-inp')?.value || '';
+      const change = w ? (parseFloat(w) - last).toFixed(1) : '';
+      if (w) last = parseFloat(w);
+      csv += `${i+1},"${date}","${w}","${change}","${note.replace(/"/g,'""')}"\n`;
+    });
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `enerzist_weight_${Date.now()}.csv`;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+    tg.HapticFeedback.impactOccurred('light');
+  } catch(e) { toast('❌ خطا در خروجی', true); }
+}
+</script>
+</body>
+</html>

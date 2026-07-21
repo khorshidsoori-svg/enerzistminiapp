@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Enerzist Suite</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tg-bg: var(--tg-theme-bg-color, #ffffff);
+    --tg-text: var(--tg-theme-text-color, #212121);
+    --tg-hint: var(--tg-theme-hint-color, #757575);
+    --tg-secondary-bg: var(--tg-theme-secondary-bg-color, #f5f5f5);
+    --red: #D32F2F; --orange: #F57C00; --yellow: #FBC02D;
+    --green: #388E3C; --blue: #1976D2;
+    --dark-red: #B71C1C; --dark-green: #1B5E20;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: var(--tg-bg);
+    color: var(--tg-text);
+    padding: 12px;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+  .app-header { text-align: center; padding: 20px 0 15px; }
+  .logo-main {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--tg-secondary-bg); padding: 12px 24px;
+    border-radius: 50px; box-shadow: 0 4px 20px rgba(211,47,47,0.15);
+  }
+  .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--red), var(--orange)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 20px; }
+  .logo-text { font-size: 24px; font-weight: 800; color: var(--red); }
+  .logo-badge { background: linear-gradient(135deg, var(--yellow), var(--orange)); color: white; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; }
+  .user-bar {
+    background: var(--tg-secondary-bg); padding: 10px 16px;
+    border-radius: 12px; margin: 12px 0;
+    display: flex; align-items: center; gap: 10px; font-size: 13px;
+  }
+  .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--red), var(--orange)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+  .user-name { font-weight: 700; color: var(--tg-text); }
+  .admin-badge { background: #FFEBEE; color: var(--dark-red); padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-right: auto; }
+  .docs-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .doc-card {
+    background: var(--tg-secondary-bg); border-radius: 14px; padding: 16px;
+    border-right: 4px solid var(--red); cursor: pointer;
+    transition: transform 0.15s; active:transform: scale(0.98);
+  }
+  .doc-card.orange { border-right-color: var(--orange); }
+  .doc-card.yellow { border-right-color: var(--yellow); }
+  .doc-card.green { border-right-color: var(--green); }
+  .doc-card.blue { border-right-color: var(--blue); }
+  .doc-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .doc-num { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+  .doc-num.red { background: var(--red); }
+  .doc-num.orange { background: var(--orange); }
+  .doc-num.yellow { background: var(--yellow); }
+  .doc-num.green { background: var(--green); }
+  .doc-num.blue { background: var(--blue); }
+  .doc-title h3 { font-size: 15px; margin-bottom: 2px; }
+  .doc-title p { font-size: 11px; color: var(--tg-hint); }
+  .doc-desc { font-size: 12px; color: var(--tg-hint); margin-bottom: 10px; padding-right: 50px; }
+  .doc-access { font-size: 11px; padding: 3px 8px; border-radius: 8px; display: inline-block; margin-right: 50px; margin-bottom: 8px; font-weight: 600; }
+  .access-admin { background: #FFEBEE; color: var(--dark-red); }
+  .access-both { background: #E8F5E9; color: var(--dark-green); }
+  .btn-open {
+    display: block; text-align: center; background: var(--red);
+    color: white; padding: 10px; border-radius: 10px; border: none;
+    font-family: inherit; font-weight: 700; font-size: 13px; width: 100%; cursor: pointer;
+  }
+  .btn-open.orange { background: var(--orange); }
+  .btn-open.yellow { background: var(--yellow); }
+  .btn-open.green { background: var(--green); }
+  .btn-open.blue { background: var(--blue); }
+  .hidden { display: none !important; }
+  @media (min-width: 600px) { .docs-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="logo-main">
+    <div class="logo-icon">E</div>
+    <div class="logo-text">Enerzist</div>
+    <div class="logo-badge">SUITE</div>
+  </div>
+  <div style="color:var(--tg-hint); font-size:13px; margin-top:8px;">سیستم جامع کلینیکی-پژوهشی تغذیه</div>
+</div>
+
+<div class="user-bar">
+  <div class="user-avatar" id="userAvatar">?</div>
+  <div>
+    <div class="user-name" id="userName">در حال بارگذاری...</div>
+    <div style="font-size:11px; color:var(--tg-hint);" id="userRole"></div>
+  </div>
+  <div class="admin-badge hidden" id="adminBadge">👨‍⚕️ ادمین</div>
+</div>
+
+<div class="docs-grid">
+  <div class="doc-card" onclick="openDoc('1-baseline.html', '📋 ارزیابی اولیه')">
+    <div class="doc-header">
+      <div class="doc-num red">۱</div>
+      <div class="doc-title"><h3>ارزیابی اولیه</h3><p>Baseline Assessment</p></div>
+    </div>
+    <div class="doc-access access-both">✅ مشاور و مراجع</div>
+    <div class="doc-desc">ثبت اطلاعات کامل، اندازه‌گیری‌ها، وضعیت روحی، سوابق پزشکی</div>
+    <button class="btn-open">📋 باز کردن</button>
+  </div>
+
+  <div class="doc-card orange" onclick="openDoc('2-mealplan.html', '🍽️ برنامه غذایی')">
+    <div class="doc-header">
+      <div class="doc-num orange">۲</div>
+      <div class="doc-title"><h3>برنامه غذایی ۴ هفته</h3><p>Nutrition Plan</p></div>
+    </div>
+    <div class="doc-access access-both" id="doc2Access">✅ مشاور و مراجع</div>
+    <div class="doc-desc">محاسبه دقیق کالری + ۲۸ کارت روزانه با غذاهای اقتصادی ایرانی</div>
+    <button class="btn-open orange">🍽️ باز کردن</button>
+  </div>
+
+  <div class="doc-card yellow" onclick="openDoc('3-routine.html', '✨ روتین سبک زندگی')">
+    <div class="doc-header">
+      <div class="doc-num yellow">۳</div>
+      <div class="doc-title"><h3>روتین سبک زندگی</h3><p>Daily Routine</p></div>
+    </div>
+    <div class="doc-access access-both">✅ مشاور و مراجع</div>
+    <div class="doc-desc">چک‌لیست روزانه ۱۷ موردی - ۳۰ برگه قابل تایپ</div>
+    <button class="btn-open yellow">✨ باز کردن</button>
+  </div>
+
+  <div class="doc-card green" onclick="openDoc('4-weight-log.html', '⚖️ ثبت وزن')">
+    <div class="doc-header">
+      <div class="doc-num green">۴</div>
+      <div class="doc-title"><h3>ثبت وزن ناشتا</h3><p>Daily Weight Log</p></div>
+    </div>
+    <div class="doc-access access-both">✅ مشاور و مراجع</div>
+    <div class="doc-desc">جدول ۳۰ روزه ثبت وزن + نمودار پیشرفت</div>
+    <button class="btn-open green">⚖️ باز کردن</button>
+  </div>
+
+  <div class="doc-card blue hidden" id="doc5" onclick="openDoc('5-followup.html', '📊 ارزیابی نهایی')">
+    <div class="doc-header">
+      <div class="doc-num blue">۵</div>
+      <div class="doc-title"><h3>ارزیابی نهایی</h3><p>Follow-up Assessment</p></div>
+    </div>
+    <div class="doc-access access-admin">🔒 فقط ادمین</div>
+    <div class="doc-desc">مقایسه علمی Before/After برای مقاله پژوهشی</div>
+    <button class="btn-open blue">📊 باز کردن</button>
+  </div>
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+const ADMIN_IDS = []; // مثال: [123456789, 987654321]
+
+tg.ready();
+tg.expand();
+tg.enableClosingConfirmation();
+
+const user = tg.initDataUnsafe?.user;
+const userId = user?.id;
+const isAdmin = ADMIN_IDS.includes(userId);
+
+// نمایش اطلاعات کاربر
+if (user) {
+  const name = [user.first_name, user.last_name].filter(Boolean).join(' ');
+  document.getElementById('userName').textContent = name || 'کاربر';
+  document.getElementById('userAvatar').textContent = (name || 'U')[0].toUpperCase();
+  document.getElementById('userRole').textContent = isAdmin ? 'مشاور تغذیه' : 'مراجع';
+  if (isAdmin) {
+    document.getElementById('adminBadge').classList.remove('hidden');
+    document.getElementById('doc5').classList.remove('hidden');
+  }
+} else {
+  // حالت تست خارج از تلگرام
+  document.getElementById('userName').textContent = 'حالت تست';
+  document.getElementById('userRole').textContent = 'خارج از تلگرام';
+  document.getElementById('userAvatar').textContent = 'T';
+}
+
+function openDoc(filename, title) {
+  tg.HapticFeedback.impactOccurred('light');
+  tg.MainButton.setText(`بازگشت به منو`);
+  window.location.href = filename;
+}
+</script>
+</body>
+</html>
